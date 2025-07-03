@@ -1,5 +1,6 @@
 package com.example.secure.pay.qr.service;
 
+import com.example.secure.pay.qr.dto.PaymentRequestDTO;
 import com.example.secure.pay.qr.dto.PaymentResponseDTO;
 import com.example.secure.pay.qr.model.Payment;
 import com.example.secure.pay.qr.repository.PaymentRepository;
@@ -31,15 +32,14 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-
     /**
      * Yeni ödeme oluşturur, veritabanına kaydeder ve ödeme için QR kod üretir.
      */
     @Transactional
-    public PaymentResponseDTO createPayment(Payment payment) throws IOException, WriterException, StripeException {
-        log.info("Creating payment: {}", payment);
+    public PaymentResponseDTO createPayment(PaymentRequestDTO paymentRequest) throws IOException, WriterException, StripeException {
+        log.info("Creating payment: {}", paymentRequest);
 
-        Payment newPayment = buildNewPayment(payment);
+        Payment newPayment = buildNewPayment(paymentRequest);
         Session session = createStripeSession(newPayment);
 
         newPayment.setPaymentIntentId(session.getPaymentIntent());
@@ -47,16 +47,16 @@ public class PaymentService {
 
         savePaymentWithQRCode(newPayment, session.getUrl());
 
-        return buildPaymentResponse(session.getUrl(), newPayment.getQrCodeBytes());
+        return buildPaymentResponse(session.getUrl(), newPayment.getQrCodeBytes(),newPayment.getToken());
     }
 
-    private Payment buildNewPayment(Payment payment) {
+    private Payment buildNewPayment(PaymentRequestDTO paymentRequest) {
         Payment newPayment = new Payment();
         newPayment.setToken(UUID.randomUUID().toString());
-        newPayment.setAmount(payment.getAmount());
-        newPayment.setCurrency(payment.getCurrency());
+        newPayment.setAmount(paymentRequest.getAmount());
+        newPayment.setCurrency(paymentRequest.getCurrency());
         newPayment.setStatus("PENDING");
-        newPayment.setDescription(payment.getDescription());
+        newPayment.setDescription(paymentRequest.getDescription());
         newPayment.setCreatedAt(Instant.now());
         return newPayment;
     }
@@ -101,11 +101,10 @@ public class PaymentService {
         log.info("Payment saved with QR code");
     }
 
-    private PaymentResponseDTO buildPaymentResponse(String checkoutUrl, byte[] qrCodeBytes) {
+    private PaymentResponseDTO buildPaymentResponse(String checkoutUrl, byte[] qrCodeBytes,String token) {
         String qrBase64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(qrCodeBytes);
-        return new PaymentResponseDTO(checkoutUrl, qrBase64);
+        return new PaymentResponseDTO(checkoutUrl, qrBase64,token);
     }
-
 
     /**
      * Tamamlanmış ödeme oturumlarının listesini getirir.

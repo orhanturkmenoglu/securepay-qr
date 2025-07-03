@@ -1,5 +1,6 @@
 package com.example.secure.pay.qr.controller;
 
+import com.example.secure.pay.qr.dto.PaymentRequestDTO;
 import com.example.secure.pay.qr.dto.PaymentResponseDTO;
 import com.example.secure.pay.qr.model.Payment;
 import com.example.secure.pay.qr.service.PaymentService;
@@ -42,7 +43,7 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<PaymentResponseDTO> createPayment(
             @Parameter(description = "Payment details", required = true)
-            @RequestBody Payment payment) throws IOException, WriterException, StripeException {
+            @RequestBody PaymentRequestDTO payment) throws IOException, WriterException, StripeException {
         PaymentResponseDTO paymentResponseDTO = paymentService.createPayment(payment);
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentResponseDTO);
     }
