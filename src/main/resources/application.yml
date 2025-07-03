@@ -20,4 +20,5 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
 stripe:
-  apiKey: sk_test_51RgidSGa0zrWZPrkCy7MgL7M3i0PnJTPxJWKeNWxzfPXqXV2vkY1KLm259i8mdJSu3dRgglpDfJ7iuaTOqCc1lOj00vDA1aWtR
+  apiKey: ${STRIPE_SECRET_KEY}
+
