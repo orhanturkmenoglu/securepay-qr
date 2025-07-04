@@ -2,9 +2,9 @@ package com.example.secure.pay.qr.service;
 
 import com.example.secure.pay.qr.dto.PaymentRequestDTO;
 import com.example.secure.pay.qr.dto.PaymentResponseDTO;
-import com.example.secure.pay.qr.enums.CurrencyType;
 import com.example.secure.pay.qr.model.Payment;
 import com.example.secure.pay.qr.repository.PaymentRepository;
+import com.example.secure.pay.qr.util.PdfInvoiceUtil;
 import com.example.secure.pay.qr.util.QRCodeGenerator;
 import com.google.zxing.WriterException;
 import com.stripe.exception.StripeException;
@@ -16,7 +16,6 @@ import com.stripe.param.checkout.SessionListParams;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Currency;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -65,8 +64,12 @@ public class PaymentService {
     private Session createStripeSession(Payment payment) throws StripeException {
         SessionCreateParams.LineItem.PriceData.ProductData productData =
                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                        .setDescription(payment.getDescription())
-                        .setName("IPHONE 13")
+                        .setName("Apple iPhone 13 128 GB Starlight")
+                        .setDescription("Apple iPhone 13 128 GB Starlight Mobile Phone (Apple Turkey Warranty)")
+                        .addImage("https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_87300789?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402")
+                        .putMetadata("brand", "Apple")
+                        .putMetadata("warranty", "Apple Turkey Warranty")
+                        .putMetadata("color","Starlight ")
                         .build();
 
         SessionCreateParams.LineItem.PriceData priceData =
@@ -152,6 +155,8 @@ public class PaymentService {
                 paymentRepository.save(payment);
 
                 // TODO: Websocket ve mail bildirimleri buraya eklenecek
+                // pdf ile rapor oluştur
+                 PdfInvoiceUtil.createInvoicePdfFile(payment,"invoices");
 
                 log.info("Payment {} marked as PAID", payment.getSessionId());
             } else {
@@ -159,6 +164,9 @@ public class PaymentService {
             }
         } catch (StripeException e) {
             log.error("Error checking payment status for session {}: {}", payment.getSessionId(), e.getMessage());
+        } catch (IOException e) {
+            log.error("Error creating invoice PDF for payment {}: {}", payment.getSessionId(), e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
