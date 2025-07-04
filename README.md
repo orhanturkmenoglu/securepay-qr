@@ -27,7 +27,7 @@ Böylece hem müşteriler hem de işletmeler için şeffaf ve sorunsuz bir ödem
 - ⏱️ **Otomatik Güncelleme:** 30 saniyede bir ödeme durumlarını kontrol edip güncelleme  
 - 🗂️ **Veritabanı Entegrasyonu:** Ödemeler ve durumları kalıcı olarak saklanır  
 - 📊 **Kolay Yönetim:** Basit loglama ile ödeme süreci takibi
-- 💱 Çoklu Para Birimi Desteği: USD, EUR gibi farklı para birimleriyle ödeme alınabilir
+- 💱 **Çoklu Para Birimi Desteği:** USD, EUR gibi farklı para birimleriyle ödeme alınabilir
 
 ---
 
