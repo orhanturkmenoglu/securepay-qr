@@ -26,7 +26,8 @@ Böylece hem müşteriler hem de işletmeler için şeffaf ve sorunsuz bir ödem
 - 🖼️ **QR Kod Üretimi:** Ödeme URL'sine özel dinamik QR kodlar  
 - ⏱️ **Otomatik Güncelleme:** 30 saniyede bir ödeme durumlarını kontrol edip güncelleme  
 - 🗂️ **Veritabanı Entegrasyonu:** Ödemeler ve durumları kalıcı olarak saklanır  
-- 📊 **Kolay Yönetim:** Basit loglama ile ödeme süreci takibi  
+- 📊 **Kolay Yönetim:** Basit loglama ile ödeme süreci takibi
+- 💱 **Çoklu Para Birimi Desteği:** USD, EUR gibi farklı para birimleriyle ödeme alınabilir
 
 ---
 
