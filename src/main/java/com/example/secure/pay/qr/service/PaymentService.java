@@ -107,10 +107,7 @@ public class PaymentService {
         log.info("Payment saved with QR code");
     }
 
-    private PaymentResponseDTO buildPaymentResponse(String checkoutUrl, byte[] qrCodeBytes,String token) {
-        String qrBase64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(qrCodeBytes);
-        return new PaymentResponseDTO(checkoutUrl, qrBase64,token);
-    }
+
 
     /**
      * Tamamlanmış ödeme oturumlarının listesini getirir.
@@ -168,6 +165,11 @@ public class PaymentService {
             log.error("Error creating invoice PDF for payment {}: {}", payment.getSessionId(), e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    private PaymentResponseDTO buildPaymentResponse(String checkoutUrl, byte[] qrCodeBytes,String token) {
+        String qrBase64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(qrCodeBytes);
+        return new PaymentResponseDTO(checkoutUrl, qrBase64,token);
     }
 
     private String getPaymentStatusFromStripe(String sessionId) throws StripeException {
