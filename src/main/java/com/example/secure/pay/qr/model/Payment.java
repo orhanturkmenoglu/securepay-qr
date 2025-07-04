@@ -1,5 +1,6 @@
 package com.example.secure.pay.qr.model;
 
+import com.example.secure.pay.qr.enums.CurrencyType;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,14 +27,12 @@ public class Payment {
     @Column(name = "session_id")
     private String sessionId;
 
-    @Column(name = "payment_intent_id")
-    private String paymentIntentId;
-
     private String token;
 
     private BigDecimal amount;
 
-    private String currency;
+    @Enumerated(EnumType.STRING)
+    private CurrencyType currency;
 
     private String description;
 
@@ -47,7 +46,7 @@ public class Payment {
     private Instant updatedAt;
 
 
-    @PostConstruct
+    @PrePersist
     public void init() {
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();

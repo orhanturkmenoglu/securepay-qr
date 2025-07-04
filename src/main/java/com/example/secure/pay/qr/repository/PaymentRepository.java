@@ -18,6 +18,4 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     Optional<Payment> findTopByStatusOrderByCreatedAtDesc(String status);
 
     List<Payment> findByStatus(String status);
-
-    Optional<Payment> findByPaymentIntentId(String paymentIntentId);
 }

@@ -2,6 +2,7 @@ package com.example.secure.pay.qr.service;
 
 import com.example.secure.pay.qr.dto.PaymentRequestDTO;
 import com.example.secure.pay.qr.dto.PaymentResponseDTO;
+import com.example.secure.pay.qr.enums.CurrencyType;
 import com.example.secure.pay.qr.model.Payment;
 import com.example.secure.pay.qr.repository.PaymentRepository;
 import com.example.secure.pay.qr.util.QRCodeGenerator;
@@ -15,10 +16,12 @@ import com.stripe.param.checkout.SessionListParams;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Currency;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.List;
@@ -42,7 +45,6 @@ public class PaymentService {
         Payment newPayment = buildNewPayment(paymentRequest);
         Session session = createStripeSession(newPayment);
 
-        newPayment.setPaymentIntentId(session.getPaymentIntent());
         newPayment.setSessionId(session.getId());
 
         savePaymentWithQRCode(newPayment, session.getUrl());
@@ -69,8 +71,8 @@ public class PaymentService {
 
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
-                        .setCurrency(payment.getCurrency())
-                        .setUnitAmountDecimal(payment.getAmount())
+                        .setCurrency(payment.getCurrency().name())
+                        .setUnitAmount(payment.getAmount().multiply(BigDecimal.valueOf(100)).longValue())
                         .setProductData(productData)
                         .build();
 
@@ -81,6 +83,8 @@ public class PaymentService {
                         .build();
 
         SessionCreateParams params = SessionCreateParams.builder()
+                .setCurrency(payment.getCurrency().name().toLowerCase())
+                .setExpiresAt(Instant.now().plusSeconds(1800).getEpochSecond())
                 .setSuccessUrl("http://localhost:8080/success")
                 .setCancelUrl("http://localhost:8080/cancel")
                 .addLineItem(lineItem)
