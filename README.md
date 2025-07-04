@@ -16,7 +16,8 @@ Böylece hem müşteriler hem de işletmeler için şeffaf ve sorunsuz bir ödem
 
 - **Ödeme Oluşturma:** Kullanıcı ödeme detaylarını gönderir, Stripe üzerinde ödeme oturumu oluşturulur ve buna özel QR kodu üretilir.  
 - **QR Kod ile Ödeme:** Kullanıcı QR kodu taratarak hızlıca ödemeyi gerçekleştirir.  
-- **Ödeme Takibi:** Sistem düzenli aralıklarla Stripe API’si ile ödeme durumlarını kontrol eder ve günceller.  
+- **Ödeme Takibi:** Sistem düzenli aralıklarla Stripe API’si ile ödeme durumlarını kontrol eder ve günceller.
+- **PDF Fatura Oluşturma:** Ödeme başarılı olduğunda otomatik olarak PDF formatında fatura oluşturulur ve dosya sistemine kaydedilir.
 - **API Erişimi:** REST API üzerinden ödeme oluşturma ve QR kod görseline erişim sağlanabilir.
 
 
