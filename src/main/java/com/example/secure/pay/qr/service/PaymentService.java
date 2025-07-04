@@ -33,6 +33,7 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final MailService mailService;
 
     /**
      * Yeni ödeme oluşturur, veritabanına kaydeder ve ödeme için QR kod üretir.
@@ -154,6 +155,9 @@ public class PaymentService {
                 // TODO: Websocket ve mail bildirimleri buraya eklenecek
                 // pdf ile rapor oluştur
                  PdfInvoiceUtil.createInvoicePdfFile(payment,"invoices");
+
+                 mailService.sendPaymentSuccessMail("orhantrkmn749@gmail.com","ORHAN TÜRKMENOĞLU",payment.getToken());
+
 
                 log.info("Payment {} marked as PAID", payment.getSessionId());
             } else {
