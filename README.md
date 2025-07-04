@@ -18,6 +18,8 @@ Böylece hem müşteriler hem de işletmeler için şeffaf ve sorunsuz bir ödem
 - **QR Kod ile Ödeme:** Kullanıcı QR kodu taratarak hızlıca ödemeyi gerçekleştirir.  
 - **Ödeme Takibi:** Sistem düzenli aralıklarla Stripe API’si ile ödeme durumlarını kontrol eder ve günceller.
 - **PDF Fatura Oluşturma:** Ödeme başarılı olduğunda otomatik olarak PDF formatında fatura oluşturulur ve dosya sistemine kaydedilir.
+- **Mail Gönderimi:** Ödeme tamamlandığında müşteriye onay maili otomatik olarak gönderilir.
+
 - **API Erişimi:** REST API üzerinden ödeme oluşturma ve QR kod görseline erişim sağlanabilir.
 
 
@@ -29,6 +31,8 @@ Böylece hem müşteriler hem de işletmeler için şeffaf ve sorunsuz bir ödem
 - 🗂️ **Veritabanı Entegrasyonu:** Ödemeler ve durumları kalıcı olarak saklanır  
 - 📊 **Kolay Yönetim:** Basit loglama ile ödeme süreci takibi
 - 💱 **Çoklu Para Birimi Desteği:** USD, EUR gibi farklı para birimleriyle ödeme alınabilir
+- 📄 **PDF Fatura:** Ödeme tamamlandığında otomatik PDF fatura oluşturma ve dosyaya kaydetme
+- 📧 **Mail Gönderimi:** Ödeme tamamlandığında müşteriye otomatik onay maili gönderme
 
 ---
 
