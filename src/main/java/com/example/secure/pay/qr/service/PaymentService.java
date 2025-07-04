@@ -57,7 +57,6 @@ public class PaymentService {
         newPayment.setCurrency(paymentRequest.getCurrency());
         newPayment.setStatus("PENDING");
         newPayment.setDescription(paymentRequest.getDescription());
-        newPayment.setCreatedAt(Instant.now());
         return newPayment;
     }
 

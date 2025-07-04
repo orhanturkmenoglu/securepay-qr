@@ -1,5 +1,6 @@
 package com.example.secure.pay.qr.model;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,4 +43,18 @@ public class Payment {
     private byte [] qrCodeBytes;
 
     private Instant createdAt;
+
+    private Instant updatedAt;
+
+
+    @PostConstruct
+    public void init() {
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = Instant.now();
+    }
 }
